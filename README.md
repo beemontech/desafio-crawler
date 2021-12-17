@@ -20,9 +20,8 @@ Extra
 
 
 ### dica 1
-Utilize um dos serviços abaixo para quebrar o captcha
+Utilize o serviço abaixo para quebrar o captcha
 - https://2captcha.com/
-- https://anti-captcha.com/
 
 
 ### Solicite ao avaliador dados de testes (CPF e Nº de Registro)
