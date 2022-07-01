@@ -1,32 +1,39 @@
-# desafio-crawler
+# beeMôn:
 
-## Passo-a-passo do desafio
+Na beeMôn criamos muitos sistemas de raspagem de dados e buscamos todos os dias inovação na analise dos dados. Este desafio esta aberto para todos que quiserem abrir um fork e submeter suas ideias de tecnologia.
 
-Acessar a seguinte página: http://consultas.detrannet.sc.gov.br/servicos/ConsultaPontuacaoCondutor.asp
+## Desafio:
+Escolher uma dos sites abaixo para fazer o desafio
 
-Resultado esperado
-- Preencher o CPF
-- Preencher o Nº Registro
-- Preencher o captcha (dica 1)
-- Submeter o formulário
-- Tirar um "screenshot" da página de resultado em caso de sucesso do `submit`
+- [quotes.toscrape](https://quotes.toscrape.com/)
+- [imdb.com](https://www.imdb.com/chart/top/?ref_=nv_mv_250)
 
-Extra
-- Extrair os seguintes dados da página e dar um retorno em um `dict` 
-  - CPF do Condutor
-  - Número CNH
-  - Período
-  - Nome do Condutor
+### Minimo Entregável:
+
+- Buscar dados de forma automatizada(script de linha de comando ou interface clicavel)
+- Padronizar os retornos de forma estruturada (json/csv)
+- Sistema de logs de para acompanhamento da execução
+- Ter um prova da consulta (Screenshot)
+
+### Pontos Extra para:
+
+- Armazenamento dos resultados em um banco relacional ou não relacional
+- fazer um dataframe que possibilite visualizar os resultados via pandas
+- Trazer resultados de forma dinamica sem fixar caminhos no `xpath`
+- Dockerizar a aplicação
+- Conseguir agendar uma execução para um dia e horario.
+
+### Libs sugeridas:
+
+ - Selenium 
+ - Scrapy
+ - Pandas
+ - Requests
+ - BeautifulSoup 
 
 
-### dica 1
-Utilize o serviço abaixo para quebrar o captcha
-- https://2captcha.com/
+### O que iremos avaliar:
 
-
-### Solicite ao avaliador dados de testes (CPF e Nº de Registro)
-
-# O que iremos avaliar:
 - Conhecimento em HTML
 - Conhecimento em fluxo de request/response
 - Conhecimento em extração de dados
@@ -34,8 +41,10 @@ Utilize o serviço abaixo para quebrar o captcha
 - Boas práticas de programação
 - Utilização de bibliotecas de terceiros
 - Documentação
-
-## Extra
-- Versionamento do código
+- Criatividade
 - Cobertura de testes
 - Tempo de execução do código
+- Versionamento do código
+
+
+
