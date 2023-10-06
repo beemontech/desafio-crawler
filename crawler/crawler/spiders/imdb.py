@@ -10,14 +10,19 @@ class ImdbSpider(scrapy.Spider):
     _CSS_SUMMARY_ITEM = "div.ipc-metadata-list-summary-item__c"
 
     def parse(self, response):
+        self.logger.info("action=parse, message=starting parse")
         for movie in response.css("li.ipc-metadata-list-summary-item"):
             yield self.extraction(movie)
 
     def _get_name_and_position(self, raw_name):
         self.logger.info(f"action=_get_name_and_position, message={raw_name}")
         splitted_raw_name = raw_name.split(" ")
-        position = splitted_raw_name[0].replace(".", "")
-        name = " ".join(splitted_raw_name[1:])
+        if "." in splitted_raw_name[0]:
+            position = splitted_raw_name[0].replace(".", "")
+            name = " ".join(splitted_raw_name[1:])
+        else:
+            position = None
+            name = " ".join(splitted_raw_name)
         return name, position
 
     def extraction(self, movie):
@@ -34,9 +39,12 @@ class ImdbSpider(scrapy.Spider):
         data["duration"] = raw_metadata[1]
         data["rating"] = movie.css(f"{self._CSS_SUMMARY_ITEM} span.ipc-rating-star::attr(aria-label)").get()
         data["rating"] = data["rating"].replace("IMDb rating: ", "")
-        data["link"] = "{}{}".format(
-            self._BASE_URL,
-            movie.css(f"{self._CSS_SUMMARY_ITEM} a.ipc-title-link-wrapper::attr(href)").get(),
-        )
+
+        movie_link = movie.css(f"{self._CSS_SUMMARY_ITEM} a.ipc-title-link-wrapper::attr(href)").get()
+        if "imdb.com" in movie_link:
+            data["link"] = movie_link
+        else:
+            data["link"] = "{}{}".format(self._BASE_URL, movie_link)
+
         data["image"] = movie.css("div.cli-poster-container img::attr(src)").extract_first()
         return data
