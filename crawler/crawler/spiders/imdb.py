@@ -1,4 +1,7 @@
+import requests
 import scrapy
+
+from pathlib import Path
 
 
 class ImdbSpider(scrapy.Spider):
@@ -8,11 +11,21 @@ class ImdbSpider(scrapy.Spider):
 
     _BASE_URL = "https://imdb.com"
     _CSS_SUMMARY_ITEM = "div.ipc-metadata-list-summary-item__c"
+    _SCREENSHOT_DIR = Path(__file__).parent.parent.parent
+    _SPLASH_URL = "http://splash:8050/run"
+    _LUA_SCRIPT = """
+    splash:go(args.url)
+    splash.set_viewport_full()
+    return splash:png()
+    """
 
     def parse(self, response):
         self.logger.info("action=parse, message=starting parse")
-        for movie in response.css("li.ipc-metadata-list-summary-item"):
-            yield self.extraction(movie)
+        try:
+            for movie in response.css("li.ipc-metadata-list-summary-item"):
+                yield self.extraction(movie)
+        finally:
+            self.take_screenshot()
 
     def _get_name_and_position(self, raw_name):
         self.logger.info(f"action=_get_name_and_position, message={raw_name}")
@@ -48,3 +61,14 @@ class ImdbSpider(scrapy.Spider):
 
         data["image"] = movie.css("div.cli-poster-container img::attr(src)").extract_first()
         return data
+
+    def take_screenshot(self):
+        self.logger.info("action=take_screenshot, message=starting to take a screenshot")
+        resp = requests.post(self._SPLASH_URL, json={
+            "lua_source": self._LUA_SCRIPT,
+            "url": self.start_urls[0]
+        })
+        png_data = resp.content
+        filename = f"{self._SCREENSHOT_DIR}/imdb_com.png"
+        Path(filename).write_bytes(png_data)
+        self.logger.info("action=take_screenshot, message=done")
