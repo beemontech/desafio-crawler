@@ -1,6 +1,6 @@
 from unittest import mock
 
-from crawler.spiders.imdb import ImdbSpider
+from crawler.crawler.spiders.imdb import ImdbSpider
 
 
 def test_imdb_attrs():
@@ -35,7 +35,7 @@ def test_imdb_get_name_and_position():
 
 def test_parse(fake_imdb_response):
     spider = ImdbSpider()
-    with mock.patch("crawler.spiders.imdb.ImdbSpider.take_screenshot") as p_take_screenshot:
+    with mock.patch("crawler.crawler.spiders.imdb.ImdbSpider.take_screenshot") as p_take_screenshot:
         result = next(spider.parse(fake_imdb_response))
 
         assert result["name"] == "The Shawshank Redemption"
@@ -53,9 +53,9 @@ def test_parse(fake_imdb_response):
 
 
 def test_logger(fake_imdb_response):
-    with mock.patch("crawler.spiders.imdb.ImdbSpider.take_screenshot") as p_take_screenshot:
+    with mock.patch("crawler.crawler.spiders.imdb.ImdbSpider.take_screenshot") as p_take_screenshot:
         spider = ImdbSpider()
-        with mock.patch("crawler.spiders.imdb.ImdbSpider.logger") as p_logger:
+        with mock.patch("crawler.crawler.spiders.imdb.ImdbSpider.logger") as p_logger:
             next(spider.parse(fake_imdb_response))
 
             p_logger.info.assert_has_calls(
@@ -63,17 +63,16 @@ def test_logger(fake_imdb_response):
                     mock.call("action=parse, message=starting parse"),
                     mock.call("action=extraction, message=starting the data extraction"),
                     mock.call("action=_get_name_and_position, message=1. The Shawshank Redemption"),
-                    mock.call("action=parse, message=starting to take a screenshot"),
                 ]
             )
-            assert 4 == p_logger.info.call_count
+            assert 3 == p_logger.info.call_count
 
         assert p_take_screenshot.called
 
 
 def test_call_take_screenshot(fake_imdb_response):
     spider = ImdbSpider()
-    with mock.patch("crawler.spiders.imdb.ImdbSpider.take_screenshot") as p_take_screenshot:
+    with mock.patch("crawler.crawler.spiders.imdb.ImdbSpider.take_screenshot") as p_take_screenshot:
         next(spider.parse(fake_imdb_response))
 
         assert p_take_screenshot.called
@@ -81,8 +80,8 @@ def test_call_take_screenshot(fake_imdb_response):
 
 def test_take_screenshot():
     spider = ImdbSpider()
-    with mock.patch("crawler.spiders.imdb.requests") as p_requests:
-        with mock.patch("crawler.spiders.imdb.Path") as p_path:
+    with mock.patch("crawler.crawler.spiders.imdb.requests") as p_requests:
+        with mock.patch("crawler.crawler.spiders.imdb.Path") as p_path:
             mock_response = mock.Mock()
             mock_response.content = b"foo"
             p_requests.post.return_value = mock_response

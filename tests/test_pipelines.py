@@ -1,13 +1,18 @@
 from unittest import mock
 
-from crawler.pipelines import MongoPipeline
+from crawler.crawler.pipelines import MongoPipeline
+
 
 def test_attrs():
     pipeline = MongoPipeline()
     assert "imdb" == pipeline.collection_name
 
 
-@mock.patch("crawler.pipelines.MongoPipeline._mongodb_db", return_value="test_crawler", new_callable=mock.PropertyMock)
+@mock.patch(
+    "crawler.crawler.pipelines.MongoPipeline._mongodb_db",
+    return_value="test_crawler",
+    new_callable=mock.PropertyMock,
+)
 def test_open_spider(_):
     pipeline = MongoPipeline()
     p_spider = mock.Mock()
@@ -17,17 +22,23 @@ def test_open_spider(_):
     p_spider.logger.info.assert_called_once_with("action=MongoPipeline, message=conecting to mongodb")
 
 
-@mock.patch("crawler.pipelines.MongoPipeline.client")
+@mock.patch("crawler.crawler.pipelines.MongoPipeline.client")
 def test_close_spider(p_client):
     pipeline = MongoPipeline()
     p_spider = mock.Mock()
     pipeline.close_spider(p_spider)
 
     assert p_client.close.called
-    p_spider.logger.info.assert_called_once_with("action=MongoPipeline, message=closing the mongodb connection")
+    p_spider.logger.info.assert_called_once_with(
+        "action=MongoPipeline, message=closing the mongodb connection"
+    )
 
 
-@mock.patch("crawler.pipelines.MongoPipeline._mongodb_db", return_value="test_crawler", new_callable=mock.PropertyMock)
+@mock.patch(
+    "crawler.crawler.pipelines.MongoPipeline._mongodb_db",
+    return_value="test_crawler",
+    new_callable=mock.PropertyMock,
+)
 def test_process_item(_):
     pipeline = MongoPipeline()
     p_spider = mock.Mock()
@@ -53,7 +64,11 @@ def test_process_item(_):
     assert 3 == p_spider.logger.info.call_count
 
 
-@mock.patch("crawler.pipelines.MongoPipeline._mongodb_db", return_value="test_crawler", new_callable=mock.PropertyMock)
+@mock.patch(
+    "crawler.crawler.pipelines.MongoPipeline._mongodb_db",
+    return_value="test_crawler",
+    new_callable=mock.PropertyMock,
+)
 def test_process_item_dont_duplicated_item(_):
     pipeline = MongoPipeline()
     p_spider = mock.Mock()
