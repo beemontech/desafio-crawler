@@ -6,3 +6,11 @@ services:
     hostname: crawler
     volumes:
       - ./:/app
+    depends_on:
+      - splash
+
+  splash:
+    image: scrapinghub/splash
+    hostname: splash
+    ports:
+     - 8050:8050
