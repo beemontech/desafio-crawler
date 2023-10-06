@@ -17,7 +17,7 @@ Build the docker image with docker-compose
 Run the container
 
 ```
-docker-compose up -d mongodb splash
+docker-compose up -d mongodb splash app
 docker-compose run crawler bash
 ```
 
@@ -28,12 +28,14 @@ cd crawler/
 scrapy crawl imdb
 ```
 
+You can check the loaded data into MongoDB by accessing the web app `http://localhost:8000/`, and in your folder, you have a screenshot of the crawled page (`crawler/imdb_com.png`).
+
 # Run the tests
 
 Inside the container run the suit test
 
 ```
-docker-compose run crawler bash
+docker-compose exec -it app bash
 
 pip install -r requirements-test.txt
 pytest -v

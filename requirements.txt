@@ -1,3 +1,4 @@
 Scrapy==2.11.0
 pymongo==4.5.0
 python-decouple==3.8
+Flask==3.0.0

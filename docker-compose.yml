@@ -16,6 +16,22 @@ services:
     networks:
       - crawler-network
 
+  app:
+    image: beemon_crawler
+    command: flask --app app:create_app --debug run --host 0.0.0.0
+    ports:
+     - 8000:5000
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/crawler
+      - MONGODB_DB=crawler
+      - MONGODB_COLLECTION=imdb
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongodb
+    networks:
+      - crawler-network
+
   splash:
     image: scrapinghub/splash
     hostname: splash
