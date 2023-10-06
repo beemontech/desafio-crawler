@@ -1,50 +1,42 @@
-# beeMôn:
+# beeMôn - Practical test
 
-Na beeMôn criamos muitos sistemas de raspagem de dados e buscamos todos os dias inovação na analise dos dados. Este desafio esta aberto para todos que quiserem abrir um fork e submeter suas ideias de tecnologia.
+Website to craw: [imdb.com](https://www.imdb.com/chart/top/?ref_=nv_mv_250)
 
-## Desafio:
-Escolher uma dos sites abaixo para fazer o desafio
+# Requirements
 
-- [quotes.toscrape](https://quotes.toscrape.com/)
-- [imdb.com](https://www.imdb.com/chart/top/?ref_=nv_mv_250)
+- Docker/docker-compose
 
-### Minimo Entregável:
+# Setup
 
-- Buscar dados de forma automatizada(script de linha de comando ou interface clicavel)
-- Padronizar os retornos de forma estruturada (json/csv)
-- Sistema de logs de para acompanhamento da execução
-- Ter um prova da consulta (Screenshot)
+Build the docker image with docker-compose
 
-### Pontos Extra para:
+`docker-compose build`
 
-- Armazenamento dos resultados em um banco relacional ou não relacional
-- fazer um dataframe que possibilite visualizar os resultados via pandas
-- Trazer resultados de forma dinamica sem fixar caminhos no `xpath`
-- Dockerizar a aplicação
-- Conseguir agendar uma execução para um dia e horario.
+# Run the project
 
-### Libs sugeridas:
+Run the container
 
- - Selenium 
- - Scrapy
- - Pandas
- - Requests
- - BeautifulSoup 
+```
+docker-compose up -d mongodb splash app
+docker-compose run crawler bash
+```
 
+Inside the container run the crawler
 
-### O que iremos avaliar:
+```
+cd crawler/
+scrapy crawl imdb
+```
 
-- Conhecimento em HTML
-- Conhecimento em fluxo de request/response
-- Conhecimento em extração de dados
-- Conhecimento em base64
-- Boas práticas de programação
-- Utilização de bibliotecas de terceiros
-- Documentação
-- Criatividade
-- Cobertura de testes
-- Tempo de execução do código
-- Versionamento do código
+You can check the loaded data into MongoDB by accessing the web app `http://localhost:8000/`, and in your folder, you have a screenshot of the crawled page (`crawler/imdb_com.png`).
 
+# Run the tests
 
+Inside the container run the suit test
 
+```
+docker-compose exec -it app bash
+
+pip install -r requirements-test.txt
+pytest -v
+```
