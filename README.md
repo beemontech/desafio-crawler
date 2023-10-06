@@ -16,13 +16,16 @@ Build the docker image with docker-compose
 
 Run the container
 
-`docker-compose run crawler bash`
+```
+docker-compose up -d mongodb splash
+docker-compose run crawler bash
+```
 
 Inside the container run the crawler
 
 ```
 cd crawler/
-scrapy crawl imdb -o out.json
+scrapy crawl imdb
 ```
 
 # Run the tests

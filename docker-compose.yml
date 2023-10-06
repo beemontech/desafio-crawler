@@ -4,13 +4,37 @@ services:
   crawler:
     build: .
     hostname: crawler
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/crawler
+      - MONGODB_DB=crawler
+      - MONGODB_COLLECTION=imdb
     volumes:
       - ./:/app
     depends_on:
       - splash
+      - mongodb
+    networks:
+      - crawler-network
 
   splash:
     image: scrapinghub/splash
     hostname: splash
     ports:
      - 8050:8050
+    networks:
+      - crawler-network
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - crawler-network
+
+volumes:
+  dbdata:
+
+networks:
+  crawler-network:

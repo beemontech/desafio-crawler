@@ -1,6 +1,8 @@
 import os
 import pytest
+import pymongo
 
+from decouple import config
 from scrapy.http import Request
 from scrapy.http.response.html import HtmlResponse
 
@@ -16,3 +18,15 @@ def fake_imdb_response():
     with open(file_path, "r") as f:
         response = HtmlResponse(url=url, request=request, body=f.read().encode(), encoding="utf-8")
     return response
+
+
+@pytest.fixture(autouse=True)
+def clearup_mongodb():
+    client = pymongo.MongoClient(config("MONGODB_URI"))
+    db = client["test_crawler"]
+    for collection_name in db.list_collection_names():
+        collection = db[collection_name]
+
+        if not collection.name.startswith("system."):
+            collection.drop()
+    client.close()
