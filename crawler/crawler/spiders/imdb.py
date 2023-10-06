@@ -64,10 +64,9 @@ class ImdbSpider(scrapy.Spider):
 
     def take_screenshot(self):
         self.logger.info("action=take_screenshot, message=starting to take a screenshot")
-        resp = requests.post(self._SPLASH_URL, json={
-            "lua_source": self._LUA_SCRIPT,
-            "url": self.start_urls[0]
-        })
+        resp = requests.post(
+            self._SPLASH_URL, json={"lua_source": self._LUA_SCRIPT, "url": self.start_urls[0]}
+        )
         png_data = resp.content
         filename = f"{self._SCREENSHOT_DIR}/imdb_com.png"
         Path(filename).write_bytes(png_data)

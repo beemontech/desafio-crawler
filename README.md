@@ -22,7 +22,7 @@ Inside the container run the crawler
 
 ```
 cd crawler/
-scrapy crawl imdb
+scrapy crawl imdb -o out.json
 ```
 
 # Run the tests

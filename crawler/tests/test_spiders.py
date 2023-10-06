@@ -15,11 +15,14 @@ def test_imdb_attrs():
 
     assert "/app/crawler" == str(spider._SCREENSHOT_DIR)
     assert "http://splash:8050/run" == spider._SPLASH_URL
-    assert """
+    assert (
+        """
     splash:go(args.url)
     splash.set_viewport_full()
     return splash:png()
-    """ == spider._LUA_SCRIPT
+    """
+        == spider._LUA_SCRIPT
+    )
 
 
 def test_imdb_get_name_and_position():
@@ -41,7 +44,10 @@ def test_parse(fake_imdb_response):
         assert result["duration"] == "2h 22m"
         assert result["rating"] == "9.3"
         assert result["link"] == "https://imdb.com/title/tt0111161/?ref_=chttp_t_1"  # noqa
-        assert result["image"] == "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_QL75_UX140_CR0,1,140,207_.jpg"  # noqa
+        assert (
+            result["image"]
+            == "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_QL75_UX140_CR0,1,140,207_.jpg"
+        )  # noqa
 
         assert p_take_screenshot.called
 
@@ -52,12 +58,14 @@ def test_logger(fake_imdb_response):
         with mock.patch("crawler.spiders.imdb.ImdbSpider.logger") as p_logger:
             next(spider.parse(fake_imdb_response))
 
-            p_logger.info.assert_has_calls([
-                mock.call("action=parse, message=starting parse"),
-                mock.call("action=extraction, message=starting the data extraction"),
-                mock.call("action=_get_name_and_position, message=1. The Shawshank Redemption"),
-                mock.call("action=parse, message=starting to take a screenshot"),
-            ])
+            p_logger.info.assert_has_calls(
+                [
+                    mock.call("action=parse, message=starting parse"),
+                    mock.call("action=extraction, message=starting the data extraction"),
+                    mock.call("action=_get_name_and_position, message=1. The Shawshank Redemption"),
+                    mock.call("action=parse, message=starting to take a screenshot"),
+                ]
+            )
             assert 4 == p_logger.info.call_count
 
         assert p_take_screenshot.called

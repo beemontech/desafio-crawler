@@ -14,10 +14,5 @@ def fake_imdb_response():
     file_path = os.path.join(base_dir, "resources", "imdb.html")
 
     with open(file_path, "r") as f:
-        response = HtmlResponse(
-            url=url,
-            request=request,
-            body=f.read().encode(),
-            encoding='utf-8'
-        )
+        response = HtmlResponse(url=url, request=request, body=f.read().encode(), encoding="utf-8")
     return response
