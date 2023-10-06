@@ -17,7 +17,8 @@ services:
       - crawler-network
 
   app:
-    image: beemon_crawler
+    build: .
+    hostname: app
     command: flask --app app:create_app --debug run --host 0.0.0.0
     ports:
      - 8000:5000
