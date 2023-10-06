@@ -6,14 +6,13 @@ Website to craw: [imdb.com](https://www.imdb.com/chart/top/?ref_=nv_mv_250)
 
 - Docker/docker-compose
 
-
 # Setup
 
 Build the docker image with docker-compose
 
 `docker-compose build`
 
-# Run
+# Run the project
 
 Run the container
 
@@ -26,4 +25,13 @@ cd crawler/
 scrapy crawl imdb
 ```
 
-You can check the exported data in the JSON file `IMDb_<timestamp>.json`
+# Run the tests
+
+Inside the container run the suit test
+
+```
+docker-compose run crawler bash
+
+pip install -r requirements-test.txt
+pytest -v
+```
