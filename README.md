@@ -8,7 +8,7 @@ Este é um projeto desenvolvido em Python, para coletar os dados dos:
 - Os 10 Principais em Bilheterias(US) 
 Os dados serão armazenados em um Banco de dados e também poderão ser armazenados em arquivos do tipo:
 - CSV, XLSX(Excel) ou Json.
-Foram utilizados Selenium, Shedule e pandas para realização do projeto.
+Foram utilizados Selenium, Shedule, pandas e Unittest para realização do projeto.
 
 
 
