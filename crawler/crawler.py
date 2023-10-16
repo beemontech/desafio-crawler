@@ -3,8 +3,9 @@ from setup_config.locators import *
 from selenium.webdriver.common.by import By
 from setup_config.setup import PageElements
 import pandas as pd
-import sqlite3, time
+import sqlite3, time, shutil
 from datetime import datetime
+import unittest
 
 
 class Collect(PageElements):
@@ -18,6 +19,7 @@ class Collect(PageElements):
         Método responsável por direcionar a coleta dos Filmes.
         Fara um loop do dicionario de urls para coletar os dados de cada página.
         '''
+        self.remove_arq()
         for dic in DICT_URLS:
             self.open_url(DICT_URLS.get(dic))
             print_log(f"[INFO] Criando o DataFrame..")
@@ -90,7 +92,7 @@ class Collect(PageElements):
         '''
         Coleta os itens apos clicar em mais informações
         '''
-        self.webdriver.execute_script(f'window.scrollBy(0, 120)')
+        self.webdriver.execute_script(f'window.scrollBy(0, 115)')
         try:
             button_mais = self.finds(MAIS_INFOS)
             self.webdriver.execute_script("arguments[0].click();", button_mais[i])
@@ -159,4 +161,29 @@ class Collect(PageElements):
             print_log(f"[INFO] Coletando Principais Bilheterias..")
         else:
             print_log(f"[INFO] Coletando Filmes mais Populares..")
-       
+    
+    def run_tests(self):
+        '''
+        Método para executar os testes.
+        '''
+        time.sleep(5)
+        path = os.path.join(os.getcwd(), "testes")
+        test_loader = unittest.TestLoader()
+        test_suite = test_loader.discover(start_dir=path, pattern='*_test.py')
+        test_runner = unittest.TextTestRunner()
+        test_runner.run(test_suite)
+    
+    def remove_arq(self):
+        '''
+        Método remove os arquivos das pastas
+        '''
+        pastas = ['arquivos', 'db_sqlite', 'screenshots']
+        for pasta in pastas:
+            path = os.path.join(os.getcwd(), pasta)
+
+            try:
+                shutil.rmtree(path)
+                os.makedirs(path)  # Recria a pasta vazia
+                print_log(f"Conteúdo de {pasta} removido com sucesso.")
+            except Exception as e:
+                print_log(f"Ocorreu um erro ao limpar {pasta}: {e}")

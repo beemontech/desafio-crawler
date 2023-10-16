@@ -1,5 +1,4 @@
-import schedule
-import time
+import schedule, time
 from setup_config.settings import *
 from crawler.crawler import *
 from setup_config.setup import Setup
@@ -26,12 +25,13 @@ class Main():
         self.crawler = Collect(self.webdriver)
         self.crawler.to_collect_movies()
         self.webdriver.close()
+        self.crawler.run_tests()
         self.crawler.time_exec()
-        
+
     def start_scheduler(self):
         '''
         Método responsável por controlar o fluxo de execuções,
-        Atrvés da vaiavel self.first_run que inicia como True,
+        Através da vaiavel self.first_run que inicia como True,
         O método sempre irá executar a primeira vez quando chamado,
         após a 1 excecução, a variavel self.first_run recebe False,
         e cai no modulo schedule, responsável por realizar a execução conforme necessário.
@@ -49,7 +49,7 @@ class Main():
             #loop infinito para garantir os agendamentos de execução.
             schedule.run_pending()
             time.sleep(1)
-        
+
         
 if __name__ == "__main__":
     setup_log()

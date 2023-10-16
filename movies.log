@@ -1,0 +1,14 @@
+15-10-2023 22:04:12 :: 
+
+15-10-2023 22:04:12 :: ====== WebDriver manager ======
+15-10-2023 22:04:12 :: Current google-chrome version is 103.0.5060
+15-10-2023 22:04:12 :: Get LATEST chromedriver version for 103.0.5060 google-chrome
+15-10-2023 22:04:12 :: Driver [/home/fabio/.wdm/drivers/chromedriver/linux64/103.0.5060.134/chromedriver] found in cache
+15-10-2023 22:04:14 :: Conteúdo de arquivos removido com sucesso.
+15-10-2023 22:04:14 :: Conteúdo de db_sqlite removido com sucesso.
+15-10-2023 22:04:14 :: Conteúdo de screenshots removido com sucesso.
+15-10-2023 22:04:14 :: [INFO] Abrindo a URL..
+15-10-2023 22:04:31 :: [INFO] Criando o DataFrame..
+15-10-2023 22:04:31 :: [INFO] Coletando os 250 melhores Filmes do Imdb
+15-10-2023 22:04:32 :: [INFO] Coletando Filme: Um Sonho de Liberdade
+15-10-2023 22:04:36 :: [INFO] Coletando Filme: O Poderoso Chefão

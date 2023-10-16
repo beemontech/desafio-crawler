@@ -67,7 +67,7 @@ O Crawler inicia pela url: https://www.imdb.com/chart/top/?ref_=nv_mv_250, onde 
 Ao final da coleta dessa categoria, é tirado um screenshot da coleta, salva os dados em um arquivo a escolher: 
 - CSV, XLSX(Excel), ou Json
 Salva os dados em uma tabela no banco de dados SqLite e vai para a proxima Url https://www.imdb.com/chart/bottom/?ref_=chttp_ql_7, Que coletará os 100 piores filmes do IMDb.
-O processo será idêntico ao processo anterior, e assim sucessivamente.
+O processo será idêntico ao processo anterior, e assim sucessivamente. Todo o processo é salvo no log.
 
 Esse processo só é alterado na coleta da https://www.imdb.com/chart/boxoffice/?ref_=chtbtm_ql_1, Principais bilheterias, onde além dos dados coletados anteriormente, serão coletados os dados:
 
@@ -80,3 +80,18 @@ Todos os dados foram coletados no formato String(texto), com excessão destes 3,
 - Percentual de arrecadação por filme,
 - Percentual de arrecadação por final de semana,
 - Média de Público e bilheteria, mensal, semestral, anual entre outros.
+
+
+
+
+## Apêndice
+
+Um Script de Teste será acionado ao término do Crawler.
+O Script consiste em um teste simples, que faz a leitura das pastas que deverão conter os arquivos coletados. Caso o numero de arquivos já pré-definidos no código seja diferente aos da coleta, então o teste falhará.
+
+        
+Por motivo do agendador de execução, um Método para excluir esses arquivos foi criado. O Método self.remove_arq() responsável por limpar os arquivos.
+
+Ex:
+
+"" Se por acaso for configurado o agendador, ao término da coleta, lá estariam os arquivos coletados, e não faria sentido rodar novamente e duplicar os mesmos dados coletados, além de fazer os testes falharem .""
