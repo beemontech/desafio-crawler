@@ -18,7 +18,7 @@ Escolher uma dos sites abaixo para fazer o desafio
 ### Pontos Extra para:
 
 - Armazenamento dos resultados em um banco relacional ou não relacional
-- fazer um dataframe que possibilite visualizar os resultados via pandas
+- Fazer um dataframe que possibilite visualizar os resultados via pandas
 - Trazer resultados de forma dinamica sem fixar caminhos no `xpath`
 - Dockerizar a aplicação
 - Conseguir agendar uma execução para um dia e horario.
