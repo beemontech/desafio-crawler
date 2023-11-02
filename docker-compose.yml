@@ -1,0 +1,43 @@
+version: '3'
+services:
+  flask:
+    build: .
+    container_name: flask
+    image: crawler
+    command: flask --app app.app:setup_app --debug run --host=0.0.0.0
+    env_file: ./.env
+    ports:
+      - "8000:5000"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - backend
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-crawler
+    env_file: ./.env
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - backend
+  redis:
+    image: redis:alpine
+    container_name: crawler-redis
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  mongodbdata:
+    driver: local
+  appdata:
+    driver: local
