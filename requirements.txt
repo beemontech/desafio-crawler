@@ -4,3 +4,4 @@ Flask-PyMongo==2.3.0
 pymongo==4.6.0
 Scrapy==2.11.0
 celery==5.3.4
+scrapy-splash==0.9.0
