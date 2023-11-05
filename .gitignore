@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 *.py[cod]
+*.pytest*
 
 *.png
 *celerybeat-schedule
