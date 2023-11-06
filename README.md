@@ -1,50 +1,68 @@
-# beeMôn:
+# Crawler - [Quotes](https://quotes.toscrape.com/):
 
-Na beeMôn criamos muitos sistemas de raspagem de dados e buscamos todos os dias inovação na analise dos dados. Este desafio esta aberto para todos que quiserem abrir um fork e submeter suas ideias de tecnologia.
+O projeto foi construído usando `Flask` e `Scrapy` como serviços principais.
 
-## Desafio:
-Escolher uma dos sites abaixo para fazer o desafio
+## Requisitos:
 
-- [quotes.toscrape](https://quotes.toscrape.com/)
-- [imdb.com](https://www.imdb.com/chart/top/?ref_=nv_mv_250)
+- Docker ou (Docker & docker-compose)
 
-### Minimo Entregável:
+## Build
 
-- Buscar dados de forma automatizada(script de linha de comando ou interface clicavel)
-- Padronizar os retornos de forma estruturada (json/csv)
-- Sistema de logs de para acompanhamento da execução
-- Ter um prova da consulta (Screenshot)
+Entre na pasta raís do projeto e copie o conteudo do `.env.example` para um novo arquivo `.env`
 
-### Pontos Extra para:
+```bash
+cp .env.example .env
+```
 
-- Armazenamento dos resultados em um banco relacional ou não relacional
-- Fazer um dataframe que possibilite visualizar os resultados via pandas
-- Trazer resultados de forma dinamica sem fixar caminhos no `xpath`
-- Dockerizar a aplicação
-- Conseguir agendar uma execução para um dia e horario.
+Para buildar o projeto digite o comando abaixo:
 
-### Libs sugeridas:
+```bash
+docker compose build
+```
 
- - Selenium 
- - Scrapy
- - Pandas
- - Requests
- - BeautifulSoup 
+**Atenção:** Se a versão do seu docker instalado não tiver o compose, use o `docker-compose` ao invés de `docker`
 
+```bash
+docker-compose build
+```
 
-### O que iremos avaliar:
+Despois de fazer o build digite o comando abaixo para rodar o projeto:
 
-- Conhecimento em HTML
-- Conhecimento em fluxo de request/response
-- Conhecimento em extração de dados
-- Conhecimento em base64
-- Boas práticas de programação
-- Utilização de bibliotecas de terceiros
-- Documentação
-- Criatividade
-- Cobertura de testes
-- Tempo de execução do código
-- Versionamento do código
+```bash
+docker compose up
+```
 
+ou (se não tiver o compose no seu docker cli)
 
+```bash
+docker-compose up
+```
 
+Feito isso, você pode abrir o seu navegador em [http://localhost:8000](http://localhost:8000) e seguir as instruções.
+
+## Testes
+
+Os testes foram feitos usando a lib `pytest`.
+Para rodar os testes precisamos acessar o container da aplicação. Faça isso digitando o comando abaixo
+
+```bash
+docker compose exec flask sh
+```
+
+Agora é só digitar o comando(dentro do container):
+
+```bash
+pytest
+```
+
+## Screenshots
+
+As capturas de telas são salvas em `crawler/screenshots`.
+
+## Banco de dados
+
+Para armanezar os dados, foi utilizado Mongo DB
+
+## Tarefas assíncronas
+
+Para executar o crawler de forma assíncrona, foi utilizado [celery](https://docs.celeryq.dev/en/stable/) junto com `redis` como [backend e broker](https://docs.celeryq.dev/en/stable/getting-started/backends-and-brokers/index.html). No projeto existe a possibilidade de agendar a execução para 5min, mas isso é facilmente estendível para qualquer momento no futuro, graças ao celery.

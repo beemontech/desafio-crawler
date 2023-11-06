@@ -1,0 +1,48 @@
+version: '3'
+services:
+  flask:
+    build: .
+    container_name: flask
+    image: crawler
+    env_file: ./.env
+    ports:
+      - "8000:5000"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - mongodb
+      - redis
+      - splash
+    networks:
+      - crawler-network
+  
+  splash:
+    image: scrapinghub/splash
+    command: splash --logfile /dev/null
+    container_name: splash
+    networks:
+      - crawler-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    command: mongod --quiet --logpath /dev/null
+    env_file: ./.env
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - crawler-network
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    networks:
+      - crawler-network
+      
+networks:
+  crawler-network:
+    driver: bridge
+
+volumes:
+  mongodbdata:
+    driver: local
