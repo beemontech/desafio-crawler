@@ -35,5 +35,5 @@ def test_index(client):
     with captured_templates(app) as templates:
         rv = client.get("/")
         assert rv.status_code == 200
-        template, context = templates[0]
+        template, _ = templates[0]
         assert template.name == "index.html"
