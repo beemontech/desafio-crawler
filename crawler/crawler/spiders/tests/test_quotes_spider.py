@@ -77,19 +77,3 @@ class TestQuotesSpider:
         assert results[0]["text"] == '"Hello, World!"'
         assert results[0]["author"] == "John Doe"
         assert results[0]["tags"] == ["tag1", "tag2"]
-
-    # def test_save_screenshot(self, mocker):
-    #     mock_open = mocker.mock_open()
-    #     mocker.patch("crawler.spiders.quotes.open", new_callable=mock_open)
-    #     request = self.spider.create_splash_request(self.url, self.spider.parse)
-    #     response = HtmlResponse(
-    #         url=self.url, request=request, body=HTML_QUOTE, encoding="utf-8"
-    #     )
-    #     response.data = {"png": base64.b64encode(b"test").decode("utf-8")}
-
-    #     self.spider.save_screenshot(response)
-
-    #     filename = f'{self.spider.SCREENSHOT_PATH}/screenshot_{self.url.replace("https://", "").replace("/", "_")}.png'
-    #     mock_open.assert_called_once_with(filename, "wb")
-    #     handle = mock_open()
-    #     handle.write.assert_called_once_with(b"test")
