@@ -14,12 +14,16 @@
                 margin: auto;
                 padding: 20px;
                 text-align: center;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
             }
             h2 {
                 color: #444;
+                font-size: 2em;
+                margin-bottom: 1em;
             }
             button {
-                background-color: #4CAF50;
                 border: none;
                 color: white;
                 padding: 15px 32px;
@@ -30,19 +34,100 @@
                 margin: 4px 2px;
                 cursor: pointer;
                 border-radius: 2px;
+                transition: background-color 0.3s ease;
+            }
+            .green-button {
+                background-color: #4CAF50;
+            }
+            .orange-button {
+                background-color: #f6bb09;
+            }
+            .orange-button:hover {
+                background-color: #eab30d;
+            }
+            .green-button:hover {
+                background-color: #45a049;
+            }
+            .red-button {
+                background-color: #f44336;
+            }
+            .red-button:hover {
+                background-color: #d32f2f;
+            }
+            .quotes {
+                text-align: left;
+                margin-top: 2em;
+                max-height: 800px;
+                overflow-y: auto;
+            }
+            .quote {
+                border: 1px solid #ddd;
+                padding: 1em;
+                margin-bottom: 1em;
+                border-radius: 4px;
+            }
+            .quote p {
+                color: #666;
+                line-height: 1.6;
+            }
+            .no-data {
+                text-align: center;
             }
         </style>
     </head>
     <body>
 
     <div class="container">
-        <h2>Crawler</h2>
+        <h2>Citações</h2>
 
-        <button onclick="runSpider()">Executar Crawler v3</button>
+        {% if not quotes %}
+            <button class="green-button" onclick="runSpider()">Executar Crawler agora</button>
+            <button class="orange-button" onclick="runSpider(5)">Executar Crawler daqui a 5min</button>
+        {% endif %}
 
+        {% if quotes %}
+        <div>
+            <p class="no-data">Dado que as citações não variam muito, você só pode executar o crawler quando não tiver nenhuma página salva. ;)</p>
+        </div>
+        <form action="/clear_database" method="POST">
+            <button class="red-button" type="submit">Limpar base de dados</button>
+        </form>
+        {% endif %}
+        
+        {% if quotes %}
+            <h3>Frases encontradas</h3>
+        {% endif %}
+        <div class="quotes">
+            {% if quotes %}
+                {% for quote in quotes %}
+                    <div class="quote">
+                        <p><strong>Autor:</strong> {{ quote.author }}</p>
+                        <p><strong>Texto:</strong> {{ quote.text }}</p>
+                        <p><strong>Tags:</strong> {{ quote.tags|join(', ') }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+            <div>
+                <p class="no-data">Sem citações salvas no banco. Escolha uma opção acima.</p>
+                <p class="no-data"><strong>Ps: </strong>Após executar o crawler você pode acompanhar a execussão pelo log no terminal</p>
+            </div>
+            {% endif %}
+        </div>
         <script>
-            function runSpider() {
-            fetch('/run_spider', {method: 'POST'})
+            function runSpider(time=undefined) {
+                if(!time){
+                    fetch('/run_spider', {method: 'POST'})
+                        .then(response => response.text())
+                        .then(data => {console.log(data); alert('Crawler executando, acompanhe a execução pelo terminal e depois recarregue a página para ver o resultado')});
+                }
+                else{
+                    fetch('/run_spider_in_five', {method: 'POST'})
+                        .then(response => response.text())
+                        .then(data => {console.log(data); alert('Execução agendada')});
+                }
+            }
+            function clearDatabase() {
+            fetch('/clear_database', {method: 'POST'})
                 .then(response => response.text())
                 .then(data => console.log(data));
             }
